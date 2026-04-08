@@ -8,6 +8,8 @@
     <title>Agent Orchestrator - AI Technical Screen</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Voice widget script must be in <head> so it catches DOMContentLoaded -->
+    <script src="https://public.cdp-stage.bluecypress.io/voice-widget.js"></script>
     <style>
         :root {
             --duo-green: #58cc02;
@@ -318,12 +320,11 @@
     </main>
     <footer class="footer">Powered by Sidecar AI · Your responses are recorded for review</footer>
 
-    <!-- Blue Cypress Voice Widget — placed at body root so it can render its own floating UI -->
+    <!-- Blue Cypress Voice Widget — at body root so it can render its own floating UI -->
     <voice-widget
         deployment-id="1D887AAD-C075-44E4-9131-FF465C7CE65C"
         api-url="https://public.cdp-stage.bluecypress.io"
     ></voice-widget>
-    <script src="https://public.cdp-stage.bluecypress.io/voice-widget.js"></script>
 
     <script>
         window.addEventListener("load", function () {
