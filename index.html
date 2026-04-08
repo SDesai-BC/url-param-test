@@ -300,10 +300,10 @@
             <div class="cta-heading">Ready to begin?</div>
             <p class="cta-sub">Click the call button below to start your AI-powered technical screen.</p>
             <div class="widget-container">
-                <voice-widget
-                    deployment-id="1D887AAD-C075-44E4-9131-FF465C7CE65C"
-                    api-url="https://public.cdp-stage.bluecypress.io"
-                ></voice-widget>
+                <!-- voice-widget renders as a floating element; placed at body level below -->
+                <p style="font-size:14px;font-weight:700;color:var(--text-secondary);">
+                    Look for the call button in the bottom-right corner 👇
+                </p>
             </div>
         </div>
         <div class="card">
@@ -318,7 +318,11 @@
     </main>
     <footer class="footer">Powered by Sidecar AI · Your responses are recorded for review</footer>
 
-    <!-- Blue Cypress Voice Widget -->
+    <!-- Blue Cypress Voice Widget — placed at body root so it can render its own floating UI -->
+    <voice-widget
+        deployment-id="1D887AAD-C075-44E4-9131-FF465C7CE65C"
+        api-url="https://public.cdp-stage.bluecypress.io"
+    ></voice-widget>
     <script src="https://public.cdp-stage.bluecypress.io/voice-widget.js"></script>
 
     <script>
