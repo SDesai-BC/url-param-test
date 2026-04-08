@@ -311,7 +311,6 @@
             <div class="cta-heading">Ready to begin?</div>
             <p class="cta-sub">Click the call button below to start your AI-powered technical screen.</p>
             <div class="widget-container">
-                <!-- voice-widget renders as a floating element; placed at body level below -->
                 <p style="font-size:14px;font-weight:700;color:var(--text-secondary);">
                     Look for the call button in the bottom-right corner 👇
                 </p>
@@ -329,40 +328,46 @@
     </main>
     <footer class="footer">Powered by Sidecar AI · Your responses are recorded for review</footer>
 
-    <!-- Blue Cypress Voice Widget — registered as <voice-agent> -->
-    <voice-agent
-        deployment-id="1D887AAD-C075-44E4-9131-FF465C7CE65C"
-        api-url="https://public.cdp-stage.bluecypress.io"
-    ></voice-agent>
-
+    <!--
+        Voice widget is created DYNAMICALLY below so that
+        dynamic-variables are set BEFORE the element is added to the DOM.
+        This prevents the "Missing required dynamic variables" error.
+    -->
     <script>
-        window.addEventListener("load", function () {
+        (function () {
+            // 1. Read URL query params
             var urlParams = new URLSearchParams(window.location.search);
-            var widget = document.querySelector('voice-agent');
 
-            if (widget) {
-                // Read URL query params
-                var interviewId = urlParams.get('interview_id') || '';
-                var firstName = urlParams.get('first_name') || '';
-                var lastName = urlParams.get('last_name') || '';
-                var email = urlParams.get('email') || '';
+            var interviewId = urlParams.get('interview_id') || '';
+            var firstName   = urlParams.get('first_name')   || '';
+            var lastName    = urlParams.get('last_name')     || '';
+            var email       = urlParams.get('email')         || '';
 
-                // Set as individual attributes on the widget
-                if (interviewId) widget.setAttribute('interview-id', interviewId);
-                if (firstName) widget.setAttribute('first-name', firstName);
-                if (lastName) widget.setAttribute('last-name', lastName);
-                if (email) widget.setAttribute('email', email);
+            // 2. Build the dynamic-variables object
+            var dynamicVariables = {
+                firstName:   firstName,
+                lastName:    lastName,
+                email:       email,
+                interviewId: interviewId
+            };
 
-                // Also pass as a JSON dynamic-variables attribute (same pattern as before)
-                var dynamicVariables = {
-                    interviewId: interviewId,
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email
-                };
-                widget.setAttribute('dynamic-variables', JSON.stringify(dynamicVariables));
-            }
-        });
+            // 3. Create the widget element
+            var widget = document.createElement('voice-agent');
+            widget.setAttribute('deployment-id', '1D887AAD-C075-44E4-9131-FF465C7CE65C');
+            widget.setAttribute('api-url', 'https://public.cdp-stage.bluecypress.io');
+
+            // 4. Set dynamic-variables BEFORE appending to the DOM
+            widget.setAttribute('dynamic-variables', JSON.stringify(dynamicVariables));
+
+            // Also set individual attributes if the widget reads them separately
+            if (interviewId) widget.setAttribute('interview-id', interviewId);
+            if (firstName)   widget.setAttribute('first-name', firstName);
+            if (lastName)    widget.setAttribute('last-name', lastName);
+            if (email)       widget.setAttribute('email', email);
+
+            // 5. Append — widget initializes NOW with all variables already present
+            document.body.appendChild(widget);
+        })();
     </script>
 </body>
 </html>
