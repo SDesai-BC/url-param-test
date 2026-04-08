@@ -329,16 +329,16 @@
     </main>
     <footer class="footer">Powered by Sidecar AI · Your responses are recorded for review</footer>
 
-    <!-- Blue Cypress Voice Widget — at body root so it can render its own floating UI -->
-    <voice-widget
+    <!-- Blue Cypress Voice Widget — registered as <voice-agent> -->
+    <voice-agent
         deployment-id="1D887AAD-C075-44E4-9131-FF465C7CE65C"
         api-url="https://public.cdp-stage.bluecypress.io"
-    ></voice-widget>
+    ></voice-agent>
 
     <script>
         window.addEventListener("load", function () {
             var urlParams = new URLSearchParams(window.location.search);
-            var widget = document.querySelector('voice-widget');
+            var widget = document.querySelector('voice-agent');
 
             if (widget) {
                 // Read URL query params
