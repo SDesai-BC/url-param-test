@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Voice widget: load script then call defineVoiceWidget() to register the custom element -->
-    <script src="https://public.cdp-stage.bluecypress.io/voice-widget.js"></script>
+    <script src="http://localhost:3002/voice-widget.js"></script>
     <script>
         if (typeof defineVoiceWidget === 'function') {
             defineVoiceWidget();
@@ -332,7 +332,7 @@
     <!-- Blue Cypress Voice Widget — registered as <voice-agent> -->
     <voice-agent
         deployment-id="1D887AAD-C075-44E4-9131-FF465C7CE65C"
-        api-url="https://public.cdp-stage.bluecypress.io"
+        api-url="http://localhost:3002"
     ></voice-agent>
 
     <script>
