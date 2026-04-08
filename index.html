@@ -8,8 +8,17 @@
     <title>Agent Orchestrator - AI Technical Screen</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Voice widget script must be in <head> so it catches DOMContentLoaded -->
+    <!-- Voice widget: load script then call defineVoiceWidget() to register the custom element -->
     <script src="https://public.cdp-stage.bluecypress.io/voice-widget.js"></script>
+    <script>
+        if (typeof defineVoiceWidget === 'function') {
+            defineVoiceWidget();
+        } else {
+            window.addEventListener('load', function() {
+                if (typeof defineVoiceWidget === 'function') defineVoiceWidget();
+            });
+        }
+    </script>
     <style>
         :root {
             --duo-green: #58cc02;
