@@ -8,17 +8,8 @@
     <title>Agent Orchestrator - AI Technical Screen</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Voice widget: load script then call defineVoiceWidget() to register the custom element -->
-    <script src="https://public.cdp-stage.bluecypress.io/voice-widget.js"></script>
-    <script>
-        if (typeof defineVoiceWidget === 'function') {
-            defineVoiceWidget();
-        } else {
-            window.addEventListener('load', function() {
-                if (typeof defineVoiceWidget === 'function') defineVoiceWidget();
-            });
-        }
-    </script>
+    <!-- ElevenLabs ConvAI widget script -->
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
     <style>
         :root {
             --duo-green: #58cc02;
@@ -329,9 +320,9 @@
     <footer class="footer">Powered by Sidecar AI · Your responses are recorded for review</footer>
 
     <!--
-        Voice widget is created DYNAMICALLY below so that
+        ElevenLabs ConvAI widget is created DYNAMICALLY below so that
         dynamic-variables are set BEFORE the element is added to the DOM.
-        This prevents the "Missing required dynamic variables" error.
+        This ensures the agent receives all candidate context on initialization.
     -->
     <script>
         (function () {
@@ -340,10 +331,10 @@
 
             var interviewId = urlParams.get('interviewId') || '';
             var firstName   = urlParams.get('firstName')   || '';
-            var lastName    = urlParams.get('lastName')     || '';
-            var email       = urlParams.get('email')         || '';
+            var lastName    = urlParams.get('lastName')    || '';
+            var email       = urlParams.get('email')       || '';
 
-            // 2. Build the dynamic-variables object
+            // 2. Build the dynamic-variables object (same format as before)
             var dynamicVariables = {
                 firstName:   firstName,
                 lastName:    lastName,
@@ -351,19 +342,14 @@
                 interviewId: interviewId
             };
 
-            // 3. Create the widget element
-            var widget = document.createElement('voice-agent');
-            widget.setAttribute('deployment-id', '79C2F575-621D-4543-846A-2B790E23C4BF');
-            widget.setAttribute('api-url', 'https://public.cdp-stage.bluecypress.io');
+            // 3. Create the ElevenLabs ConvAI widget element
+            var widget = document.createElement('elevenlabs-convai');
+            widget.setAttribute('agent-id', 'agent_3601kpvfpy7wfv3vqpd1f45tg5nk');
 
             // 4. Set dynamic-variables BEFORE appending to the DOM
+            //    ElevenLabs reads this attribute as a JSON string and passes
+            //    the values into the agent's prompt at conversation start.
             widget.setAttribute('dynamic-variables', JSON.stringify(dynamicVariables));
-
-            // Also set individual attributes if the widget reads them separately
-            if (interviewId) widget.setAttribute('interview-id', interviewId);
-            if (firstName)   widget.setAttribute('first-name', firstName);
-            if (lastName)    widget.setAttribute('last-name', lastName);
-            if (email)       widget.setAttribute('email', email);
 
             // 5. Append — widget initializes NOW with all variables already present
             document.body.appendChild(widget);
